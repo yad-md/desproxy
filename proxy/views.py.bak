@@ -1,0 +1,72 @@
+# Create your views here.
+from django.http import HttpResponse
+#import httplib, urllib
+from designateclient.v1 import Client 
+from designateclient.v1.domains import Domain
+
+
+
+def index(self):
+
+
+# Create an instance of the client, providing the necessary credentials
+  client = Client(
+    auth_url="http://keystone:5000/v2.0/",
+    username="designate",
+    password="designate",
+    tenant_name="service",
+    endpoint="http://designate:9001/v1"
+  )
+  domain = Domain(name="example.com.", email="fred@example.com")
+
+# Send the Create Domain API call
+  domain = client.domains.create(domain)
+
+#  domain = Domain(name="ex1.com.", email="admin@ex.com")
+#  domain = client.domains.create(domain)
+
+  return HttpResponse(client.domains.list())  
+
+
+
+
+#    S = str(request.get_full_path)
+#    i = S.find("PATH_INFO")
+#    f = S[i+15:]
+#    i = f.find("\'")
+#    f = f[:i]
+#    return HttpResponse(f)
+#    data = urllib.quote_plus('{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"designate","domain":{"id":"default"},"password":"designate"}}}}}')
+#    hdrs = {'Content-Type': 'application/json'}
+#    conn = httplib.HTTPConnection("keystone", 5000)
+#    ht.putheader('Content-Type: application/json')
+#    ht.endheaders()
+#    ht.putrequest("GET", "/v3/auth/tokens")
+#    ht.putheader('Content-Type: application/json')
+#    ht.endheaders()
+#    ht.send(st)
+    
+#    r2 = ht.getresponse()
+#    print r2
+
+#    conn.request('GET', '/v3/auth/tokens', data, hdrs)
+#    resp = conn.getresponse()
+
+#    return HttpResponse()
+
+
+# "auth": {
+#    "identity": {
+#      "methods": ["password"],
+#      "password": {
+#        "user": {
+#          "name": "admin",
+#          "domain": { "id": "default" },
+#          "password": "adminpwd"
+#        }
+#      }
+#    }
+#  }
+#}
+
+#{"auth":{"identity":{"methods":["password"],"password":{"user":{"name":"admin","domain":{"id":"default"},"password":"adminpwd"}}}}}
